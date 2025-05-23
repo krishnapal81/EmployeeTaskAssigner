@@ -1,34 +1,80 @@
-import axios from 'axios'
-import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Ct from './Ct'
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Ct from './Ct';
 
-const Resetpwd=()=> {
-  let[data,setData]=useState()
-  let navigate=useNavigate()
-  let obj=useContext(Ct)
+import {
+  Box,
+  Container,
+  TextField,
+  Button,
+  Paper,
+  Typography,
+} from '@mui/material';
 
-  let fun=(e)=>{
-    setData({"pwd":e.target.value})
+const Resetpwd = () => {
+  let [data, setData] = useState();
+  let navigate = useNavigate();
+  let obj = useContext(Ct);
 
-  }
-  let change=()=>{
-    axios.post("http://localhost:5000/resetpwd",{...data,"_id":obj.data._id},{"headers":{"Authorization":obj.data.token}}).then(()=>{
-      obj.fun({"token":"","_id":"","name":"","isadmin":false})
-      navigate("/")
-    })
+  let fun = (e) => {
+    setData({ pwd: e.target.value });
+  };
 
-  }
+  let change = () => {
+    axios
+      .post(
+        'http://localhost:5000/resetpwd',
+        { ...data, _id: obj.data._id },
+        {
+          headers: {
+            Authorization: obj.data.token,
+          },
+        }
+      )
+      .then(() => {
+        obj.fun({ token: '', _id: '', name: '', isadmin: false });
+        navigate('/');
+      });
+  };
+
   return (
-    <div className='con'>
-      <div className='form'>
-        <input type='password' placeholder='enter new password' onChange={fun}/>
-        <button onClick={change}>Change PWD</button>
+    <Container maxWidth="sm">
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          mt: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          alignItems: 'center',
+          borderRadius: 2,
+        }}
+      >
+        <Typography variant="h5" fontWeight="bold" color="primary">
+          Reset Your Password
+        </Typography>
 
-      </div>
+        <TextField
+          type="password"
+          fullWidth
+          variant="outlined"
+          label="Enter new password"
+          onChange={fun}
+        />
 
-    </div>
-  )
-}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={change}
+          sx={{ width: '60%' }}
+        >
+          Change Password
+        </Button>
+      </Paper>
+    </Container>
+  );
+};
 
-export default Resetpwd
+export default Resetpwd;

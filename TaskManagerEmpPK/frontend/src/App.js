@@ -15,7 +15,7 @@ import AddTasks from './components/AddTasks'
 
 
 const App=()=> {
-  let[data,setData]=useState({"token":"","_id":"","name":"","isadmin":false})
+  let[data,setData]=useState({"token":"","id":"","name":"","isadmin":false})
   let fun=(obj)=>{
     setData({...obj})
   }
